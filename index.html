@@ -1,13 +1,337 @@
+
 <!DOCTYPE html>
-
 <html>
-
 <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Flat Cube</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.timer.js"></script>
+    <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="//connect.facebook.net/zh_TW/all.js"></script>
+    <link rel="stylesheet" href="flatcube.css">
+</head> 
+<body class="body">
 
-</head>
-<body>
-    <table>
-        <td>1234</td>
-    </table>
+    <div class="titlebar">
+        <h1 class="h1Size">Flat Cube</h1>      
+    </div>
+    <div id="functionbar" class="functionbar" >
+        快來將寶石連成一線吧!!  
+        <div id="start" class="start">開始</div>
+         
+            <div style="display:inline;font-size:24px;">Time:
+            <div id="count" class="count" style="display:inline;"></div>
+            s
+            </div>
+    </div>
+    <div class="gamebackground" id="game">
+      <div id="card1" class="card" style="margin-left:20px;"></div>
+      <div id="card2" class="card" style="margin-left:100px;"></div>
+      <div id="card3" class="card" style="margin-left:180px;"></div>
+      <div id="card4" class="card" style="margin-left:260px;"></div>
+      <div id="card5" class="card" style="margin-left:340px;"></div>
+      <div id="card6" class="card" style="margin-left:420px;"></div>
+      <div id="card7" class="card" style="margin-left:500px;"></div>
+      <div id="card8" class="card" style="margin-left:580px;"></div>
+      <div id="SelectCard1" class="selectCard" style="margin-left:10px;"></div>
+      <div id="SelectCard2" class="selectCard" style="margin-left:90px;"></div>
+      <div id="SelectCard3" class="selectCard" style="margin-left:170px;"></div>
+      <div id="SelectCard4" class="selectCard" style="margin-left:250px;"></div>
+      <div id="SelectCard5" class="selectCard" style="margin-left:330px;"></div>
+      <div id="SelectCard6" class="selectCard" style="margin-left:410px;"></div>
+      <div id="SelectCard7" class="selectCard" style="margin-left:490px;"></div>
+    </div>
+    <div class="winDialog">
+        <h1>恭喜你過關囉！！</h1>
+        <div id="timer" class="timer"><p></p></div>
+        <div class="btnline">
+            <div class="share">分享</div>
+            <div class="reset">重新開始</div>
+        </div>
+    </div>
+    <div id="record">
+    
+    </div>
+    <div style="height:200px;" class="footer">
+        <h3>玩法說明</h3>
+        <div>
+            移動規則: 每次移動需使用兩張牌，且必須使用2張空白牌對換另外兩張牌。
+        </div>
+        <div>
+            過關條件:
+            <ol>
+                <li>當中間寶石5顆完整，不限顏色</li>
+                <li>空白牌兩張必須出現在最左邊或最右邊</li>
+            </ol>
+        </div>
+        
+    </div>
+
+    <div class="footer">
+        <h4>製作單位</h4>
+            國立虎尾科技大學 資訊工程系 行動應用與軟體工程  潘泓銘
+        <h4>協作單位</h4>
+        <ol>
+            <li>國立虎尾科技大學益智遊戲社</li>
+            <li>玩坊MoreFun桌上遊戲（斗六店)</li>
+        </ol>   
+    </div>
+    
+    <script type="text/javascript">
+    var count = 0;
+    var old=7,user=7;
+    var coverFlag=0,coverTemp;
+    var x=0;
+    var record=new Array();
+    //$(".selectCard").css("display","none");
+    //$("#SelectCard"+user).css("display","inline").css("border-color","red");
+    $("#card"+7).text("*");
+    $("#card"+8).text("*");
+    
+    var timer = $.timer(
+            function() {
+                count++;
+                $('.count').html(count);
+            },
+            1000,
+            true
+    );
+    timer.pause();
+    
+    $("#start").click(function(){
+        setStart();
+        /*
+        $("#card"+1).text("1");
+        $("#card"+1).css("background-image", "url(css/01.jpg)");
+        $("#card"+2).text("2");
+        $("#card"+2).css("background-image", "url(css/02.jpg)");
+        $("#card"+3).text("3");
+        $("#card"+3).css("background-image", "url(css/03.jpg)");
+        $("#card"+4).text("4");
+        $("#card"+4).css("background-image", "url(css/04.jpg)");
+        $("#card"+5).text("5");
+        $("#card"+5).css("background-image", "url(css/05.jpg)");
+        $("#card"+6).text("6");
+        $("#card"+6).css("background-image", "url(css/06.jpg)");
+        $("#card"+7).text("*");
+        $("#card"+7).css("background-image", "");
+        $("#card"+8).text("*");
+        $("#card"+8).css("background-image", "");
+        $("#cue").text("開始囉~");
+        */
+        timer.play();
+    });
+    
+    function setStart(){
+        count=0;
+        old=7;user=7;
+        coverFlag=0;coverTemp;
+        x=0;
+        //$(".selectCard").css("display","none");
+        //$("#SelectCard"+user).css("display","inline").css("border-color","red");
+        $("#card"+7).css("background-image", "");
+        $("#card"+8).css("background-image", "");
+        $("#card"+7).text("*");
+        $("#card"+8).text("*");
+        var balls = new Array(6);
+    　　 var i=0,j=0,k=0;
+    　　 for(i=0;i<6;i++){
+    　　　　balls[i]=i+1;
+    　　　}
+    　　　for(i=1;i<=1000;i++)
+    　　　{
+    　　　　j=Math.floor(Math.random()*6);
+    　　　　k=Math.floor(Math.random()*6);
+    　　　　balls[6]=balls[j];
+    　　　　balls[j]=balls[k];
+    　　　　balls[k]=balls[6];
+    　　　}
+    　　　
+        var x;
+        for(i=0;i<6;i++){
+            x=i+1;
+            $("#card"+x).text(balls[i]);
+            $("#card"+x).css("background-image", "url(css/0"+balls[i]+".jpg)");
+        }
+    }
+    
+    $(document).keydown(function(event){
+        //console.log(event.keyCode); 
+        if(event.keyCode==37){
+            if(user-1!=0){
+                if(old==user){
+                    coverFlag=1;
+                    coverTemp=old;
+                }
+                //$("#SelectCard"+user).css("display","none").css("border-color","none");
+                user--;
+                //$("#SelectCard"+user).css("display","inline").css("border-color","red");
+                if(coverFlag==1){
+                    //$("#SelectCard"+old).css("display","inline").css("border-color","blue");
+                    coverFlag=0;
+                }
+            }
+            $("#cue").text("選擇中！！");
+        }
+        if(event.keyCode==39){
+            if(user+1!=8){
+                if(old==user){
+                    coverFlag=1;
+                    coverTemp=old;
+                }
+                //$("#SelectCard"+user).css("display","none").css("border-color","none");
+                user++;
+                //$("#SelectCard"+user).css("display","inline").css("border-color","red");
+                if(coverFlag==1){
+                    //$("#SelectCard"+old).css("display","inline").css("border-color","blue");
+                    coverFlag=0;
+                }
+            }
+            $("#cue").text("選擇中！！");
+        }
+        var temp;
+        if(event.keyCode==32){
+            changeCard();
+        }
+    });
+    $("#SelectCard1").click(function(){
+        user=1;
+        changeCard();
+    });
+    $("#SelectCard2").click(function(){
+        user=2;
+        changeCard();
+    });
+    $("#SelectCard3").click(function(){
+        user=3;
+        changeCard();
+    });
+    $("#SelectCard4").click(function(){
+        user=4;
+        changeCard();
+    });
+    $("#SelectCard5").click(function(){
+        user=5;
+        changeCard();
+    });
+    $("#SelectCard6").click(function(){
+        user=6;
+        changeCard();
+    });
+    $("#SelectCard7").click(function(){
+        user=7;
+        changeCard();
+    });
+    function changeCard(){
+            if(user+1!=old&&user-1!=old){
+                record[x++]=old;
+                temp=$("#card"+user).text();
+                $("#card"+user).text($("#card"+old).text());
+                $("#card"+old).text(temp);
+                temp=$("#card"+user).css('background-image');
+                $("#card"+user).css("background-image",$("#card"+old).css('background-image') );
+                $("#card"+old).css("background-image",temp);
+
+                temp=$("#card"+(user+1)).text();
+                $("#card"+(user+1)).text($("#card"+(old+1)).text());
+                $("#card"+(old+1)).text(temp);
+                //$("#SelectCard"+old).css("display","none").css("border-color","none");
+                temp=$("#card"+(user+1)).css('background-image');
+                $("#card"+(user+1)).css("background-image",$("#card"+(old+1)).css('background-image') );
+                $("#card"+(old+1)).css("background-image",temp);
+
+                old=user;
+                //$("#SelectCard"+user).css("display","inline").css("border-color","blue");
+                $("#cue").text("交換！！");
+
+                Check();
+            }else{
+                $("#cue").text("不能這樣移動喔！！");
+            }
+    }
+    function Check(){
+        if($("#card1").text()=="*"){
+            CheckCard2();
+        }else if($("#card8").text()=="*"){
+            CheckCard();        
+        }
+    }
+    function CheckCard(){//空白牌在右
+        var i,j;
+        var flag=0;
+        
+        for(i=2;i<7;i++){
+            if(parseInt($("#card"+i).text())==parseInt($("#card"+(i-1)).text())+1){
+                flag++;
+            }else if($("#card"+i).text()=="1"){
+                flag++;
+                for(j=i+1;j<7;j++){
+                     if(parseInt($("#card"+j).text())==parseInt($("#card"+(j-1)).text())+1)flag++;
+                }
+                break;
+            }
+        }
+        console.log("flag="+flag);
+        if(flag==5){
+            timer.pause();
+            dialog();
+        }
+    }
+    function CheckCard2(){//空白牌在左
+        var i;
+        var flag=0;
+        for(i=4;i<9;i++){
+            if(parseInt($("#card"+i).text())==parseInt($("#card"+(i-1)).text())+1){
+            flag++;
+            }else if($("#card"+i).text()=="1"){
+                flag++;
+                for(j=i;j<9;j++){
+                     if(parseInt($("#card"+j).text())==parseInt($("#card"+(j-1)).text())+1)flag++;
+                }
+                break;
+            }
+        }
+        if(flag==5){
+            timer.pause();
+            dialog();
+        }
+    }
+    function dialog(){
+        $("#timer p").text(count+" s");
+        $(".winDialog").slideDown(1000);
+    }
+    $(".reset").click(function(){
+        setStart();
+        $(".winDialog").slideUp(1000);
+        timer.play();
+    });
+    $(".share").click(function(){
+        FB.init({
+            appId      : '703565972999632',
+            status     : true,
+            xfbml      : true
+         });
+        FB.ui({
+        method: 'feed',
+        name: 'Flat Cube !!',
+        link: 'http://40025146.github.io/flatcube',
+        picture: 'http://40025146.github.io/FlatCube/css/01.jpg',
+        caption: '讓寶石組合連線遊戲，發揮你的超能力!!',
+        description: '我用 '+count+'秒 解完了!!!!!'
+        },
+        function(response) {
+            if (response && response.post_id) {
+              
+            } else {
+             
+            }
+        });
+    });
+    </script>
+  
 </body>
 </html>

@@ -1,0 +1,121 @@
+        .gamebackground{
+            border-style: solid;
+            border-color: #A64B00;
+            width: 680px;
+            height: 200px;
+            margin: 0px auto;
+            background-color: #FFEB73;
+            border-radius: 27px;
+        }
+        
+        .card{
+            display:inline;
+            margin-left: 20px;
+            border-style: solid;
+            border-color: #000;
+            width: 60px;
+            height: 100px;
+            margin-top:50px;
+            position:absolute;
+            overflow:hidden;
+            text-indent:-9999px;
+            overflow:hidden;
+        }
+        .selectCard{
+            display:inline;
+            margin-left: 10px;
+            border-style: solid;
+            width: 160px;
+            height: 150px;
+            margin-top:25px;
+            position:absolute;
+            border-color: #FFEB73;
+            opacity:0;
+           
+        }
+        .selectCard:hover{
+            border-color:red;
+            opacity:1;
+        }
+        
+        .cue{
+            position: absolute;
+            top: 100px;
+            margin-left: 100px;
+        }
+        .start{
+            display: inline;
+            width: 50px;
+            background-color: #BF6D30;
+            text-align:center;
+            font-color:#FFF;
+            padding: 5px;
+            margin-left: 50px;
+            border-radius: 10px;
+            font-size:24px;
+        }
+        .titlebar{
+            width: 400px;
+            text-align: center;
+            margin: 0px auto;
+        }
+        .functionbar{
+            width: 600px;
+            margin: 0px auto;
+            font-size:24px;
+            padding: 10px;
+        }
+        .body{
+            background: #FFAE73;
+        }
+        .h1Size{
+            font-size: 48px;
+        }
+        .footer{
+            width: 600px;
+            margin: 0px auto;
+        }
+        .winDialog{
+            border-style: solid;
+            border-color: #98bf21;
+            width: 500px;
+            height: 400px;
+            position:fixed; top:10%; left:30%;
+            background-color: #FFEB73;
+            border-radius: 27px;
+            display:none;
+            position:absolute;
+            text-align:center;
+        }
+        .timer{
+            width:100px;
+            height:100px;
+            margin: 0px auto;
+            text-align:center;
+        }
+        .timer p{
+            text-align:center;
+            font-size:40px;
+        }
+        .btnline{
+            margin-top:100px;
+        }
+        .reset{
+            width:100px;
+            height:50px;
+            border-style:solid;
+            border-color:#62BD10;
+            background-color:#62BD10;
+            font-size:24px;
+            margin-left:50px;
+            display:inline;
+        }
+        .share{
+            width:100px;
+            height:50px;
+            border-style:solid;
+            border-color:#62BD10;
+            background-color:#62BD10;
+            font-size:24px;
+            display:inline;
+        }
